@@ -17,7 +17,7 @@ unalias git > /dev/null 2>&1
 unset -f git > /dev/null 2>&1
 
 # Use the full path to git to avoid infinite loop with git function
-export _git_cmd="$(\which git)"
+export _git_cmd="$(bin_path git)"
 # Wrap git with the 'hub' github wrapper, if installed (https://github.com/defunkt/hub)
 if type hub > /dev/null 2>&1; then export _git_cmd="hub"; fi
 
@@ -71,7 +71,7 @@ __git_alias () {
     alias_str="$1"; cmd_prefix="$2"; cmd="$3";
     if [ $# -gt 2 ]; then
       shift 3 2>/dev/null
-      cmd_args=$@
+      cmd_args=("$@")
     fi
 
     alias $alias_str="$cmd_prefix $cmd${cmd_args:+ }${cmd_args[*]}"
@@ -89,6 +89,7 @@ _alias "$git_add_shortcuts_alias"     'git_add_shortcuts'
 _alias "$exec_scmb_expand_args_alias" 'exec_scmb_expand_args'
 _alias "$git_show_files_alias"        'git_show_affected_files'
 _alias "$git_commit_all_alias"        'git_commit_all'
+_alias "$git_grep_shortcuts_alias"    'git_grep_shortcuts'
 
 # Git Index alias
 _alias "$git_index_alias"             'git_index'
@@ -100,18 +101,19 @@ if [ "$git_setup_aliases" = "yes" ]; then
   __git_alias "$git_checkout_alias"                 'git' 'checkout'
   __git_alias "$git_commit_alias"                   'git' 'commit'
   __git_alias "$git_commit_verbose_alias"           'git' 'commit' '--verbose'
-  __git_alias "$git_reset_alias"                    'git' 'reset' '--'
+  __git_alias "$git_reset_alias"                    'git' 'reset'
   __git_alias "$git_reset_hard_alias"               'git' 'reset' '--hard'
   __git_alias "$git_rm_alias"                       'git' 'rm'
   __git_alias "$git_blame_alias"                    'git' 'blame'
-  __git_alias "$git_diff_no_whitespace_alias"       'git' 'diff' '-w' '--'
+  __git_alias "$git_diff_no_whitespace_alias"       'git' 'diff' '-w'
   __git_alias "$git_diff_alias"                     'git' 'diff'
-  __git_alias "$git_diff_file_alias"                'git' 'diff' '--'
+  __git_alias "$git_diff_file_alias"                'git' 'diff'
   __git_alias "$git_diff_word_alias"                'git' 'diff' '--word-diff'
-  __git_alias "$git_diff_cached_alias"              'git' 'diff' '--cached --'
+  __git_alias "$git_diff_cached_alias"              'git' 'diff' '--cached'
   __git_alias "$git_add_patch_alias"                'git' 'add' '-p'
   __git_alias "$git_add_updated_alias"              'git' 'add' '-u'
   __git_alias "$git_difftool_alias"                 'git' 'difftool'
+  __git_alias "$git_mergetool_alias"                'git' 'mergetool'
 
   # Custom default format for git log
   git_log_command="log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"

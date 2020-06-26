@@ -1,7 +1,18 @@
 #!/bin/sh
 # uninstall by (github: bernardofire)
 # Remove line from bashrc and zshrc if present.
-for rc in bashrc zshrc; do
-  sed -i '/scm_breeze/d' "$HOME/.$rc"
-  printf "Removed SCM Breeze from %s\n" "$HOME/.$rc"
-done
+
+sed="sed -i"
+if [[ $OSTYPE == "Darwin" ]]; then
+  sed="sed -i ''"
+fi
+
+if [ -f "$HOME/.bashrc" ]; then
+  $sed '/scm_breeze/d' "$HOME/.bashrc" &&
+  printf "Removed SCM Breeze from '%s'\n" "$HOME/.bashrc"
+fi
+
+if [ -f "${ZDOTDIR:-$HOME}/.zshrc" ]; then
+  $sed '/scm_breeze/d' "${ZDOTDIR:-$HOME}/.zshrc" &&
+  printf "Removed SCM Breeze from '%s'\n" "${ZDOTDIR:-$HOME}/.zshrc" 
+fi

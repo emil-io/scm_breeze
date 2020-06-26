@@ -11,9 +11,6 @@ your interaction with git. It integrates with your shell to give you numbered
 file shortcuts, a repository index with tab completion, and many other useful
 features.
 
-![SCM Breeze Example Gif](http://i.imgur.com/3fD8cpo.gif)
-
-
 - [Installation](#installation)
 - [Usage](#usage)
   - [File Shortcuts](#file-shortcuts)
@@ -32,7 +29,7 @@ features.
 ```bash
 git clone git://github.com/scmbreeze/scm_breeze.git ~/.scm_breeze
 ~/.scm_breeze/install.sh
-source ~/.bashrc   # or source ~/.zshrc
+source ~/.bashrc   # or source "${ZDOTDIR:-$HOME}/.zshrc"
 ```
 
 The install script creates required default configs and adds the following line
@@ -41,12 +38,6 @@ to your `.bashrc` or `.zshrc`:
 `[ -s "$HOME/.scm_breeze/scm_breeze.sh" ] && source "$HOME/.scm_breeze/scm_breeze.sh"`
 
 **Note:** SCM Breeze performs much faster if you have ruby installed.
-
-
-## Usage
-
-<center><a href="http://www.youtube.com/watch?v=iKdp6uBfrvc"
-target="_blank"><img src="http://i.imgur.com/l7aGG.png"></a></center>
 
 ### File Shortcuts
 
@@ -114,7 +105,7 @@ $ gco 5
 
 
 You can use these shortcuts with system commands by passing your command
-through `exec_scmb_expand_args` (default alias is 'ge'):
+through `exec_scmb_expand_args` (default alias is `ge`):
 
 
 ```bash
@@ -190,8 +181,9 @@ doesn't need to 'learn' anything, and it can do SCM-specific stuff like:
 
 The default alias for `git_index` is 'c', which might stand for 'code'
 
-You will first need to configure your repository directory, and then build the
-index:
+You will first need to configure your repository directory by setting `GIT_REPO_DIR` in `~/.git.sbmrc`.
+
+Then, build the index:
 
 ```bash
 $ c --rebuild
@@ -261,7 +253,7 @@ default base subdirectories are: Images, Backgrounds, Logos, Icons, Mockups,
 and Screenshots.
 
 After you have changed these settings, remember to run `source ~/.bashrc` or
-`source ~/.zshrc`.
+`source "${ZDOTDIR:-$HOME}/.zshrc"`.
 
 
 #### 2) Initialize design directories for your projects
@@ -332,7 +324,7 @@ Each feature is modular, so you are free to ignore the parts you don't want to
 use.  Just comment out the relevant line in `~/.scm_breeze/scm_breeze.sh`.
 
 **Note:** After changing any settings, you will need to run `source ~/.bashrc`
-(or `source ~/.zshrc`)
+(or `source "${ZDOTDIR:-$HOME}/.zshrc"`)
 
 I know we grow attached to the aliases we use every day, so I've made the alias
 system completely customizable.  You have two options when it comes to aliases:
@@ -358,6 +350,22 @@ as `gs` for the extended `git status`, and `ga` for the `git add` function.
 
 If you already have an alias like `alias gco="git checkout"`, you can now type
 `gco 1` to checkout the first file in the output of SCM Breeze's `git status`.
+
+## Custom emojis for username and "staff" group
+
+The `ll` command adds numbered shortcuts to files, but another fun feature is replacing your
+username and the "staff" group with custom emojis. You can set these in `~/.user_sym` and `~/.staff_sym`.
+
+<img src="/docs/images/custom_user_and_staff_symbols.jpg" width="400" alt="Custom user and staff emojis">
+
+Set your own emojis by running:
+
+```bash
+echo 🍀 > ~/.user_sym
+echo 🖥 > ~/.staff_sym
+```
+
+I also like using `~/.user_sym` [in my Bash prompt](https://github.com/ndbroadbent/dotfiles/blob/master/bashrc/prompt.sh#L71).
 
 
 ## Notes about Tab Completion for Aliases
@@ -406,3 +414,7 @@ SCMs.
 
 ***Enjoy!***
 
+## Alternative Projects
+
+1. https://github.com/shinriyo/breeze `fish` support
+1. https://github.com/mroth/scmpuff static go binary
